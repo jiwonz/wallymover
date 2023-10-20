@@ -154,6 +154,8 @@ func main() {
 			if err != nil {
 				panic(err)
 			}
+			println("wallymover: successfully initialized wallymover.toml")
+			return
 		} else {
 			log.Fatal("argument <path> is not given.")
 		}
@@ -199,7 +201,7 @@ func main() {
 
 		err = runCommand("wally", "install")
 		if err != nil {
-			println("wally error:", err) // change to Fatal after the test
+			log.Fatal("wally error:", err) // change to Fatal after the test
 		}
 
 		err = moveFiles("Packages", config.Path)
@@ -212,6 +214,12 @@ func main() {
 			log.Fatal("remove Packages error:", err)
 		}
 
-		println("wallymover: successfully completed.")
+		println("wallymover: successfully installed and moved with wallymover!")
+		return
+	}
+	commands := os.Args[1:]
+	err := runCommand("wally", commands...)
+	if err != nil {
+		log.Fatal("wally error:", err) // change to Fatal after the test
 	}
 }
